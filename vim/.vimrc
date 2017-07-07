@@ -24,3 +24,9 @@ set shiftwidth=4           "set indent/tab to be four spaces
 " Recall: backslash is the default leader
 set listchars=tab:▸\ ,eol:¬
 map <leader>l :set list!<CR>
+
+" cabbrev:
+ca te tabedit
+ca tn tabnew
+ca th tabp
+ca tl tabn
