@@ -36,12 +36,13 @@ vim
 ```
 
 ### Configure Terminal
-1. Copy the `.bashrc` and `.profile` files to home directory
+1. For the newer version of MacOS, continue to use bash as the default shell with `chsh -s /bin/bash` and verify the change with `echo "$SHELL"`
+2. Copy the `.bashrc` and `.profile` files to home directory
 ```bash
 cp dotfiles/bash/* ~/
 source ~/.bashrc
 ```
-2. Manually modify the default Terminal settings Preferences > Profile > Select the Pro profile and change font size to 16pt.
+3. Manually modify the default Terminal settings Preferences > Profile > Select the Pro profile and change font size to 16pt.
 
 ### Python
 Add the Python 3 location to the $PATH variable
