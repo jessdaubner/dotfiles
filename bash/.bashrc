@@ -7,3 +7,9 @@ fi
 export EDITOR=vim
 
 alias f='flake8'
+
+# asdf and asdf-direnv
+export PATH=$(brew --prefix asdf)/bin:$PATH
+eval "$(asdf exec direnv hook bash)"
+# A shortcut for asdf managed direnv.
+direnv() { asdf exec direnv "$@"; }
