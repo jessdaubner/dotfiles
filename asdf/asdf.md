@@ -6,118 +6,57 @@ It will shim the chosen versions into your PATH for you, so you get the right ve
 You will have to install the right plugins; they cannot be auto-installed.
 Once you have plugins and `.tool-versions` in project repos, a simple `asdf install` from within the repo will install and shim the right version of the language and/or framework.
 
-Direnv simplifies environment variables for projects by clearly defining them. 
+Direnv simplifies environment variables for projects by clearly defining them.
 [asdf-direnv](https://github.com/asdf-community/asdf-direnv) plugin handles env setup.
 Direnv also provides measurable performance benefits in daily use by speeding up the asdf shims, e.g. during package installs where the interpreter is invoked many times.
 
 ## Setup
-
-[Follow their directions for your operating system.](https://asdf-vm.com/#/core-manage-asdf-vm)
-
-## Configure asdf-vm
-
-### Turn on legacy support
-[Per documentation](https://asdf-vm.com/#/core-configuration?id=homeasdfrc),
-create a `.asdfrc` file in your home directory.
-Set `legacy_version_file = yes`.
-
-### Install direnv's plugin
-
-[Install asdf-direnv](https://github.com/asdf-community/asdf-direnv#setup)
-
-### Configure asdf-direnv
-
-[Configure asdf and direnv itegration](https://github.com/asdf-community/asdf-direnv#global-asdf-direnv-integration)
-
-* **Note if you previously had asdf installed and configured then this step requires you to cleanup any asdf modifications from your shell dotfiles.**
-* **In specific, remove the `. $HOME/.asdf/asdf.sh` line!**
-
-If you are using oh-my-zsh, asdf and direnv both have plugins included by default, and won't require editing your zsh rc file. 
-You can [enable the asdf and direnv plugins](https://github.com/ohmyzsh/ohmyzsh#enabling-plugins)
-
+1. [Follow their directions for your operating system.](https://asdf-vm.com/#/core-manage-asdf)
+2. [Install asdf-direnv](https://github.com/asdf-community/asdf-direnv#setup):
+   ```
+   asdf plugin-add direnv
+   asdf install direnv 2.23.1
+   asdf global  direnv 2.23.1
+   ```
+3. [Configure asdf and direnv itegration](https://github.com/asdf-community/asdf-direnv#global-asdf-direnv-integration)
+4. Install language plugins, as needed. Common plugins we use include Python and Terraform:
+   ```bash
+   asdf plugin-add python
+   asdf plugin-add terraform
+   ```
 
 ### Troubleshooting
-
-Ensure your path is looking in the correct place for asdf depending on how the install was done. 
-Refer to documentation on asdf above for setting path to include asdf install location.
-
-You can run `echo $PATH` and `which asdf` to get some insight on how your shell is finding asdf.
-
-[Ensure .config/direnv/direnvrc file](https://github.com/asdf-community/asdf-direnv#global-asdf-direnv-integration) is setup to allow the `use asdf` line.
-
-[Ensure direnv hook is setup](https://github.com/asdf-community/asdf-direnv#setup) [acording to shell you are using](https://github.com/direnv/direnv/blob/master/docs/hook.md)
+* Ensure your path is looking in the correct place for asdf depending on how the install was done. Refer to documentation on asdf above for setting path to include asdf install location. You can run `echo $PATH` and `which asdf` to get some insight on how your shell is finding asdf.
+* [Ensure .config/direnv/direnvrc file](https://github.com/asdf-community/asdf-direnv#global-asdf-direnv-integration) is setup to allow the `use asdf` line.
+* [Ensure direnv hook is setup](https://github.com/asdf-community/asdf-direnv#setup) [acording to shell you are using](https://github.com/direnv/direnv/blob/master/docs/hook.md)
 
 
-### Install language plugins, as needed
-
-Before installing plugins, install the [general plugin dependencies](https://asdf-vm.com/#/core-manage-asdf-vm?id=plugin-dependencies) for your system in order to be able to build the language interpreters/compilers.
-
-#### Python
-```bash
-asdf plugin-add python
-```
-#### Other plugins possibly of interest:
-* helm (devops)
-* kubectl (kubernetes)
-* terraform (devops)
-* golang (mileage service)
-
-```bash
-echo 'legacy_version_file = yes' >> ~/.asdfrc
-brew install coreutils automake autoconf openssl libyaml readline libxslt libtool unixodbc unzip curl
-brew install asdf
-export PATH=$(brew --prefix asdf)/bin:$PATH
-asdf plugin-add direnv
-asdf install direnv 2.23.1
-asdf global direnv 2.23.1
-mkdir -p ~/.config/direnv
-echo 'source $(asdf which direnv_use_asdf)' >> ~/.config/direnv/direnvrc
-echo 'use asdf' >> ~/.envrc
-echo '# asdf and asdf-direnv' >> ~/.bashrc
-echo 'export PATH=$(brew --prefix asdf)/bin:$PATH' >> ~/.bashrc
-echo 'eval "$(asdf exec direnv hook bash)"' >> ~/.bashrc
-. .bashrc
-asdf exec direnv allow
-asdf plugin-add python
-```
-
-# Daily Use
-
-Repos will include a `.tool-versions` to tell asdf which versions of languages
-to use. Repos will also include a `.envrc.sample` which you'll need to copy to
-the `.envrc` file and then approve with direnv.
-
+## How to use
+Projects include a `.tool-versions` to tell asdf which versions of languages to use.
+Repos will also include a `.envrc.sample` which you'll need to copy to to use.
 ```bash
 cp .envrc.sample .envrc
 asdf exec direnv allow
 ```
 
-You may want to create a shell alias (`alias direnv='asdf exec direnv'`) if you
-don't like typing that whole mess. You won't just be able to `direnv allow`
-because since the `.envrc` is currently rejected by direnv, you won't have any
-asdf managed programs in your path, including direnv itself.
+You may want to create a shell alias (`alias direnv='asdf exec direnv'`) if you don't like typing that whole mess.
+You won't just be able to `direnv allow` because since the `.envrc` is currently rejected by direnv, you won't have any asdf managed programs in your path, including direnv itself.
 
-You can add environmental variables to the `.envrc` as you need to for your
-repo. Add them like standard bash env vars: `export VAR=VALUE`.
+You can add environmental variables to the `.envrc` as you need to for your project.
+Add them like standard bash env vars: `export VAR=VALUE`.
+Use `asdf install` to prepare your repo-specific language tooling.
 
 Once you have allowed the `.envrc` file and you see direnv being active:
 ```bash
-jbooth@m /home/jbooth $ cd mastery/riparian
+$ cd mastery/<your-project>
 direnv: loading .envrc
 direnv: using asdf
-direnv: loading ~/.asdf/installs/direnv/2.20.0/env/266424240-637988107-1156974511-547257890
-direnv: using asdf kubectl 1.16.3
-direnv: using asdf direnv 2.20.0
-direnv: using asdf python 3.8.0
-direnv: export +BUILD_VERSION +ENVIRONMENT +IMAGE_TAG +LAUNCHDARKLY_KEY +MIXPANEL_TOKEN +NEW_RELIC_LICENSE_KEY +REGISTRY_LOGIN_SERVER +SENTRY_DSN +SLACK_API_TOKEN +VIRTUAL_ENV ~PATH
-jbooth@m /home/jbooth/mastery/riparian (master) $ 
+direnv: loading ~/.asdf/installs/direnv/2.23.1/env/266424240-637988107-1156974511-547257890
+direnv: using asdf python 3.8.1
+direnv: export +<YOUR-ENVS> +VIRTUAL_ENV ~PATH
 ```
-Use `asdf install` to prepare your repo-specific language tooling. Then
-follow your language's normal development workflow.
 
-
-# Repository Configuration
-
+### Project Configuration
 * Configure the asdf language and versions you will use via `asdf local <language> <version>`
 * Add the resulting .tool-versions file.
 * Add the `.envrc` and `.direnv` to the repo's `.gitignore` to prevent committing secrets or your local language installs.
@@ -136,15 +75,10 @@ follow your language's normal development workflow.
     ```
 * Add standard bash `export VAR=VALUE` lines to the `.envrc.sample` as needed.
 
-
-## Set/update what version a repo uses
-
+## Set or update what version a repo uses
 ```bash
 asdf install <language> <version>
 asdf local <language> <version>
 git add .tool-versions
 git commit -m "Switching to <language> <version>"
-... do the pr dance ...
 ```
-
-Note: if your repo uses the legacy version file support these directions don't apply.
