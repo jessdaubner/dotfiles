@@ -1,9 +1,5 @@
 # Overview
-Setup a development environment for a new Mac quickly with my prefered tools and configurations.
-
-#### Organization
-* *vim* - .vimrc with aliases, styling, and plugins
-* *bash* - .bashrc, .profile to configure terminal
+Instructions to set up a development environment for a new Mac quickly with prefered tools and configurations.
 
 ## Downloads & Configurations
 
@@ -43,8 +39,12 @@ source ~/.bashrc
 ```
 3. Manually modify the default Terminal settings Preferences > Profile > Select the Pro profile and change font size to 16pt.
 
-### Configure Cloud Provider CLI
-#### AWS
+Note that these profiles follow the project setup instructions for:
+* [bash-completion](https://github.com/scop/bash-completion)
+* [bash-git-prompt](https://github.com/magicmonty/bash-git-prompt)
+* [pyenv](https://github.com/pyenv/pyenv)
+
+### Configure AWS CLI
 Run `aws configure` and enter AWS Access Key ID, AWS Secret Access Key, and region.
 
 ### Installation checks
@@ -52,5 +52,4 @@ Run `aws configure` and enter AWS Access Key ID, AWS Secret Access Key, and regi
 which python
 python --version
 aws --version
-java --version
 ```
