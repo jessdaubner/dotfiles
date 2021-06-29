@@ -4,7 +4,6 @@ Setup a development environment for a new Mac quickly with my prefered tools and
 #### Organization
 * *vim* - .vimrc with aliases, styling, and plugins
 * *bash* - .bashrc, .profile to configure terminal
-* *ssh* - Github, VPN templates
 
 ## Downloads & Configurations
 
@@ -36,20 +35,17 @@ vim
 ```
 
 ### Configure Terminal
-1. Copy the `.bashrc` and `.profile` files to home directory
+1. For the newer version of MacOS, continue to use bash as the default shell with `chsh -s /bin/bash` and verify the change with `echo "$SHELL"`
+2. Copy the `.bashrc` and `.profile` files to home directory
 ```bash
 cp dotfiles/bash/* ~/
 source ~/.bashrc
 ```
-2. Manually modify the default Terminal settings Preferences > Profile > Select the Pro profile and change font size to 16pt.
+3. Manually modify the default Terminal settings Preferences > Profile > Select the Pro profile and change font size to 16pt.
 
-### Python
-Add the Python 3 location to the $PATH variable
-```bash
-~ export PATH=~/Library/Python/3.7/bin:$PATH
-```
-
-### Configure AWS CLI
+### Configure Cloud Provider CLI
+#### Azure
+#### AWS
 Run `aws configure` and enter AWS Access Key ID, AWS Secret Access Key, and region.
 
 ### Installation checks
