@@ -44,7 +44,6 @@ source ~/.bashrc
 3. Manually modify the default Terminal settings Preferences > Profile > Select the Pro profile and change font size to 16pt.
 
 ### Configure Cloud Provider CLI
-#### Azure
 #### AWS
 Run `aws configure` and enter AWS Access Key ID, AWS Secret Access Key, and region.
 
