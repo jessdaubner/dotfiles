@@ -31,5 +31,5 @@ ca tn tabnew
 ca th tabp
 ca tl tabn
 
-# Remove trailing whitespace on save
+" Remove trailing whitespace on save
 autocmd BufWritePre * %s/\s\+$//e
