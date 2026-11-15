@@ -38,8 +38,6 @@ gh auth login
 ```
 
 ### Configure Cloud Provider CLI
-#### Azure
-Run `az login`.
 #### AWS
 Run `aws configure` and enter AWS Access Key ID, AWS Secret Access Key, and region.
 
