@@ -11,18 +11,18 @@ Direnv simplifies environment variables for projects by clearly defining them.
 Direnv also provides measurable performance benefits in daily use by speeding up the asdf shims, e.g. during package installs where the interpreter is invoked many times.
 
 ## Setup
-1. [Follow their directions for your operating system.](https://asdf-vm.com/#/core-manage-asdf)
-2. [Install asdf-direnv](https://github.com/asdf-community/asdf-direnv#setup):
-   ```
-   asdf plugin-add direnv
-   asdf install direnv 2.23.1
-   asdf global  direnv 2.23.1
-   ```
-3. [Configure asdf and direnv itegration](https://github.com/asdf-community/asdf-direnv#global-asdf-direnv-integration)
-4. Install language plugins, as needed. Common plugins we use include Python and Terraform:
+> These notes use asdf v0.16+ (the Go rewrite). Older guides use `asdf plugin-add`, `asdf global` and `asdf local`; those became `asdf plugin add` and `asdf set`.
+
+1. Install asdf and direnv: both are in the `Brewfile`, and `zsh/.zshrc` / `bash/.bashrc` already put the asdf shims on `PATH` and load the direnv hook.
+2. Optionally, [install asdf-direnv](https://github.com/asdf-community/asdf-direnv#setup) so `use asdf` in an `.envrc` loads tools without going through shims (faster):
    ```bash
-   asdf plugin-add python
-   asdf plugin-add terraform
+   asdf plugin add direnv
+   asdf direnv setup --shell zsh --version system
+   ```
+3. Install language plugins, as needed. Common plugins we use include Python and Terraform:
+   ```bash
+   asdf plugin add python
+   asdf plugin add terraform
    ```
 
 ### Troubleshooting
@@ -36,11 +36,8 @@ Projects include a `.tool-versions` to tell asdf which versions of languages to 
 Repos will also include a `.envrc.sample` which you'll need to copy to to use.
 ```bash
 cp .envrc.sample .envrc
-asdf exec direnv allow
+direnv allow
 ```
-
-You may want to create a shell alias (`alias direnv='asdf exec direnv'`) if you don't like typing that whole mess.
-You won't just be able to `direnv allow` because since the `.envrc` is currently rejected by direnv, you won't have any asdf managed programs in your path, including direnv itself.
 
 You can add environmental variables to the `.envrc` as you need to for your project.
 Add them like standard bash env vars: `export VAR=VALUE`.
@@ -57,7 +54,7 @@ direnv: export +<YOUR-ENVS> +VIRTUAL_ENV ~PATH
 ```
 
 ### Project Configuration
-* Configure the asdf language and versions you will use via `asdf local <language> <version>`
+* Configure the asdf language and versions you will use via `asdf set <language> <version>`
 * Add the resulting .tool-versions file.
 * Add the `.envrc` and `.direnv` to the repo's `.gitignore` to prevent committing secrets or your local language installs.
   * You can do this for your account globally too:
@@ -78,7 +75,7 @@ direnv: export +<YOUR-ENVS> +VIRTUAL_ENV ~PATH
 ## Set or update what version a repo uses
 ```bash
 asdf install <language> <version>
-asdf local <language> <version>
+asdf set <language> <version>
 git add .tool-versions
 git commit -m "Switching to <language> <version>"
 ```

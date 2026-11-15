@@ -9,7 +9,7 @@ Plug 'tpope/vim-vinegar'
 " Add plugins to &runtimepath and initialize plugin system
 call plug#end()
 
-colo seoul256
+silent! colo seoul256   "ignore error before :PlugInstall has run
 set background=dark
 set number                 "show line numbers
 set hlsearch               "highlight searches; noh command turns off
@@ -31,5 +31,5 @@ ca tn tabnew
 ca th tabp
 ca tl tabn
 
-# Remove trailing whitespace on save
+" Remove trailing whitespace on save
 autocmd BufWritePre * %s/\s\+$//e
