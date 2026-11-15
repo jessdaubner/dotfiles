@@ -2,56 +2,51 @@
 Setup a development environment for a new Mac quickly with my prefered tools and configurations.
 
 #### Organization
+* *zsh* - .zshrc for the default macOS shell (git-aware prompt, asdf, direnv, aliases)
+* *bash* - .bashrc, .profile with the same setup for bash
 * *vim* - .vimrc with aliases, styling, and plugins
-* *bash* - .bashrc, .profile to configure terminal
+* *asdf* - notes on using asdf + direnv for per-project tool versions
+* *Brewfile* - software installed with Homebrew
 
-## Downloads & Configurations
-
-### General Software
-1. Clone this repo and run the setup script on your new machine.
+## Setup
+1. Configure Github by [creating a new SSH key and adding it to your account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+2. Clone this repo and run the setup script:
 
 ```bash
 git clone git@github.com:jessdaubner/dotfiles.git
-cd dotfiles && setup.sh
-```
-`setup.sh` installs [Home Brew](https://brew.sh/) and uses [Homebrew Bundle](https://github.com/Homebrew/homebrew-bundle) to install software on your macOS.
-
-2. Configure Github by [creating a new public key and adding it to your account](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/).
-
-### Configure Vim
-1. Download [vim-plug](https://github.com/junegunn/vim-plug), a minimalist Vim plugin manager
-```bash
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-```
-2. Copy the `.vimrc` file to home directory
-```bash
-cp dotfiles/vim/.vimrc ~/.vimrc
-```
-3. Start vim and install the plugins
-```bash
-vim
-:PlugInstall
+cd dotfiles && ./setup.sh
 ```
 
-### Configure Terminal
-1. For the newer version of MacOS, continue to use bash as the default shell with `chsh -s /bin/bash` and verify the change with `echo "$SHELL"`
-2. Copy the `.bashrc` and `.profile` files to home directory
+`setup.sh` is safe to re-run. It:
+* installs [Homebrew](https://brew.sh/) if missing (needs `sudo`; skipped with a warning if you don't have it) and installs everything in the `Brewfile` with `brew bundle`
+* symlinks `.zshrc`, `.bashrc`, `.profile`, `.vimrc` and `.tmux.conf` into `$HOME`, backing up any existing files as `<name>.bak.<timestamp>`
+* installs [vim-plug](https://github.com/junegunn/vim-plug) and the vim plugins
+
+Open a new terminal afterwards to load the shell config. Put machine-specific settings (work aliases, secrets) in `~/.zshrc.local`, which is sourced but not tracked.
+
+### Shell
+zsh is the macOS default and is what `zsh/.zshrc` targets. To use bash instead, install Homebrew's bash, add `$(brew --prefix)/bin/bash` to `/etc/shells` and run `chsh -s $(brew --prefix)/bin/bash`; `bash/.bashrc` has the same setup.
+
+Optionally, change the Terminal profile in Settings > Profiles (e.g. Pro, 16pt font).
+
+### Git
 ```bash
-cp dotfiles/bash/* ~/
-source ~/.bashrc
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+gh auth login
 ```
-3. Manually modify the default Terminal settings Preferences > Profile > Select the Pro profile and change font size to 16pt.
 
 ### Configure Cloud Provider CLI
 #### Azure
+Run `az login`.
 #### AWS
 Run `aws configure` and enter AWS Access Key ID, AWS Secret Access Key, and region.
 
 ### Installation checks
 ```bash
-which python
-python --version
-aws --version
-java --version
+brew --version
+git --version
+gh --version
+asdf --version
+direnv --version
 ```
