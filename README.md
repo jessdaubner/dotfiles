@@ -19,6 +19,7 @@ cd dotfiles && ./setup.sh
 
 `setup.sh` is safe to re-run. It:
 * installs [Homebrew](https://brew.sh/) if missing (needs `sudo`; skipped with a warning if you don't have it) and installs everything in the `Brewfile` with `brew bundle`
+* installs the [AWS CLI v2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) to `~/.local` with AWS's installer (no `sudo` needed)
 * symlinks `.zshrc`, `.bashrc`, `.profile`, `.vimrc` and `.tmux.conf` into `$HOME`, backing up any existing files as `<name>.bak.<timestamp>`
 * installs [vim-plug](https://github.com/junegunn/vim-plug) and the vim plugins
 
@@ -49,4 +50,5 @@ git --version
 gh --version
 asdf --version
 direnv --version
+aws --version
 ```

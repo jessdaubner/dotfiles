@@ -34,6 +34,13 @@ if command -v brew >/dev/null 2>&1; then
   brew bundle --file="$DOTFILES/Brewfile"
 fi
 
+# --- AWS CLI ----------------------------------------------------------------
+# AWS's official installer: user-local install (~/.local/share/aws-cli, `aws` in
+# ~/.local/bin), no sudo needed. Verifies the package signature; no-op if current.
+echo "Installing AWS CLI"
+curl -fsSL https://awscli.amazonaws.com/v2/install.sh | bash \
+  || echo "AWS CLI install failed; continuing" >&2
+
 # --- Dotfiles ---------------------------------------------------------------
 link() {
   local src="$1" dest="$2"
